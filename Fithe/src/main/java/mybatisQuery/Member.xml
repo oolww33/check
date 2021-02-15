@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+						"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fithe.member.dao.MemberDAO">
+
+	<insert id="memberInsert" parameterType="com.fithe.member.vo.MemberVO">
+		INSERT INTO 
+			FIT_MEMBER(MNUM, MID, MPW, MNAME, MBIR, MGENDER,
+					   MZONECODE, MADDRESS_ROAD, MADDRESS_DETAIL, MPH, MEMAIL,
+					   MINSERTDATE, MUPDATEDATE, MDELYN)
+			VALUES (#{mnum, jdbcType=VARCHAR}, #{mid, jdbcType=VARCHAR}, #{mpw, jdbcType=VARCHAR},
+					#{mname, jdbcType=VARCHAR}, #{mbir, jdbcType=VARCHAR}, #{mgender,jdbcType=VARCHAR}, 
+					#{mzonecode, jdbcType=VARCHAR}, #{maddress_road, jdbcType=VARCHAR}, 
+					#{maddress_detail, jdbcType=VARCHAR}, #{mph, jdbcType=VARCHAR},
+					#{memail, jdbcType=VARCHAR}, SYSDATE, SYSDATE, 'N')
+	</insert>
+	
+	<select id="memberLogin" parameterType="com.fithe.member.vo.MemberVO" resultType="com.fithe.member.vo.MemberVO">
+		SELECT MID, MPW
+		FROM FIT_MEMBER
+		WHERE MID = #{mid, jdbcType=VARCHAR} 
+		AND MPW = #{mpw, jdbcType=VARCHAR}
+	
+	</select>
+	
+	<select id="memberidcheck" parameterType="com.fithe.member.vo.MemberVO" resultType="com.fithe.member.vo.MemberVO">
+		SELECT MID
+		FROM FIT_MEMBER
+		WHERE MID = #{mid, jdbcType=VARCHAR} 
+	</select>
+</mapper>
