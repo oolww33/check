@@ -33,7 +33,6 @@
 	    				type : method,
 	    				data : dataPara,
 	    				success : function(data){
-	    					alert("data : ", data);
 	    					if(data == 1){
 	    						alert("중복된 아이디");
 	    						$("#mid").val("");
@@ -129,9 +128,9 @@
 				<tr>
 					<td class="mem">생년월일</td>
 					<td>
-					<input type="text" id="mbiry" name="mbiry" size="5" maxlength="4"/> 년
-					<input type="text" id="mbirm" name="mbirm" size="5" maxlength="2"/> 월
-					<input type="text" id="mbird" name="mbird" size="5" maxlength="2"/> 일
+					<input type="text" id="mbiry" name="mbiry" size="5" maxlength="4" placeholder="ex)1994"/> 년
+					<input type="text" id="mbirm" name="mbirm" size="5" maxlength="2" placeholder="ex)10"/> 월
+					<input type="text" id="mbird" name="mbird" size="5" maxlength="2" placeholder="ex)07"/> 일
 					</td>
 				</tr>
 				<tr>

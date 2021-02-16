@@ -1,5 +1,7 @@
 package com.fithe.member.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,30 @@ public class MemberDAOImpl implements MemberDAO {
 	public MemberVO memberidcheck(String mid) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("memberidcheck", mid);
+	}
+
+//	@Override
+//	public MemberVO memberPage(String mnum) {
+//		// TODO Auto-generated method stub
+//		return (MemberVO)sqlSession.selectOne("memberPage", mnum);
+//	}
+	
+	@Override
+	public List<MemberVO> memberPage(MemberVO mvo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("memberPage", mvo);
+	}
+
+	@Override
+	public int memberUpdate(MemberVO mvo) {
+		// TODO Auto-generated method stub
+		return (Integer)sqlSession.update("memberUpdate", mvo);
+	}
+
+	@Override
+	public int memberDelete(MemberVO mvo) {
+		// TODO Auto-generated method stub
+		return (Integer)sqlSession.update("memberDelete", mvo);
 	}
 
 }

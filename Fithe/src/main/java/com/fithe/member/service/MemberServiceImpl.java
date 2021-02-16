@@ -24,6 +24,7 @@ public class MemberServiceImpl implements MemberService {
 		this.memberDAO = memberDAO;
 	}
 	
+	//회원입력
 	@Override
 	public int memberInsert(MemberVO mvo) {
 		// TODO Auto-generated method stub
@@ -31,7 +32,8 @@ public class MemberServiceImpl implements MemberService {
 		int nCnt = memberDAO.memberInsert(mvo);
 		return nCnt;
 	}
-
+	
+	//로그인
 	@Override
 	public MemberVO memberLogin(MemberVO mvo) {
 		// TODO Auto-generated method stub
@@ -39,7 +41,8 @@ public class MemberServiceImpl implements MemberService {
 		MemberVO mvo1 = memberDAO.memberLogin(mvo);
 		return mvo1;
 	}
-
+	
+	//아이디중복체크
 	@Override
 	public MemberVO memberidcheck(String mid) {
 		// TODO Auto-generated method stub
@@ -47,4 +50,33 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.memberidcheck(mid);
 	}
 
+//	@Override
+//	public MemberVO memberPage(String mnum) {
+//		// TODO Auto-generated method stub
+//		logger.info("MemberServiceImpl memberPage함수진입");
+//		return memberDAO.memberPage(mnum);
+//	}
+	
+	//마이페이지
+	@Override
+	public List<MemberVO> memberPage(MemberVO mvo) {
+		// TODO Auto-generated method stub
+		logger.info("MemberServiceImpl memberPage함수진입");
+		return memberDAO.memberPage(mvo);
+	}
+	
+	//회원 수정
+	@Override
+	public int memberUpdate(MemberVO mvo) {
+		// TODO Auto-generated method stub
+		logger.info("MemberServiceImpl memberUpdate함수진입");
+		return memberDAO.memberUpdate(mvo);
+	}
+
+	@Override
+	public int memberDelete(MemberVO mvo) {
+		// TODO Auto-generated method stub
+		logger.info("MemberServiceImpl memberDelete함수진입");
+		return memberDAO.memberDelete(mvo);
+	}
 }

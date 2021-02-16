@@ -7,6 +7,9 @@
 		<title>loginX</title>
 	</head>
 	<body>
-		X
+		<script>
+			alert("다시 로그인해주세요");
+			location.href="/Fithe/loginform.fit";
+		</script>
 	</body>
 </html>

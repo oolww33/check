@@ -9,13 +9,17 @@
 		<script type="text/javascript">
 			$(document).ready(function(){
 				$(document).on("click","#insertbutton",function(){
-					console.log("회원가입하러 고");
+					console.log("회원가입");
 					location.href="/Fithe/insertForm.fit";
+					
 				});
 				
 				$(document).on("click","#loginbutton",function(){
-					alert("로그인 고");
-					location.href="/Fithe/login.fit";
+					alert("로그인 ");
+					document.loginForm.action="/Fithe/login.fit";
+					document.loginForm.method = "POST";
+// 					document.insertForm.enctype = "application/www-form-urlencoded";
+					document.loginForm.submit();
 				});
 			});
 		</script>

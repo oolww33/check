@@ -1,6 +1,8 @@
 package com.fithe.member.controller;
 
 
+import java.util.List;
+
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -35,7 +37,7 @@ public class MemberController {
 	//Autowired 어노테이션으로 의존성 주입
 	@Autowired(required=false)
 	public MemberController ( MemberService memberService, ChabunService chabunService
-			,PasswordEncoder passwordEncoder, JavaMailSenderImpl mailSender) {
+			, PasswordEncoder passwordEncoder, JavaMailSenderImpl mailSender) {
 		this.memberService = memberService;
 		this.chabunService = chabunService;
 		this.passwordEncoder = passwordEncoder;
@@ -56,17 +58,20 @@ public class MemberController {
 		return "/member/insertform";
 	}
 	
-	// 회원가입 페이지에서 입력 받느 값들을 DB에 저장
+	// 회원가입 페이지에서 입력 받은 값들을 DB에 저장
 	// 저장이 완료되면 login창으로 
 	@RequestMapping(value="insert", method=RequestMethod.POST)
 	public String memberInsert(MemberVO mvo, HttpServletRequest request) {
 		logger.info("Controller memberInsert함수 진입");
 		//채번
-//		String mnum = Chabun.memberChabun(chabunService.getChabun().getMnum());
 		String mnum = Chabun.memberChabun(chabunService.getChabun().getMnum());
-		logger.info(request.getParameter("mpw"));
+		
+		
 		//비밀번호 암호화
+		logger.info("암호화 전의 비밀번호 : " + request.getParameter("mpw"));
 		String mpw = passwordEncoder.encode(request.getParameter("mpw"));
+		logger.info("암호화된 비밀번호 : " + mpw);
+		
 		//생년월일
 		String mbiry = request.getParameter("mbiry");
 		String mbirm = request.getParameter("mbirm");
@@ -119,29 +124,47 @@ public class MemberController {
 		}
 	}
 	
+	// 아이디가 입력되지 않았을때 에러발생 해결해야함.
 	// 로그인버튼을눌렀을시(세션처리)
 	@RequestMapping(value="login", method=RequestMethod.POST)
-	public String memberLogin(HttpServletRequest request, Model model) {
-		logger.info("memberlogin 함수진입");
-		String mid = request.getParameter("mid");
+	public String memberLogin(HttpServletRequest request, MemberVO mvo, Model model) {
+		logger.info("Controller memberlogin 함수진입");
 		String mpw = request.getParameter("mpw");
+		logger.info("mpw : " + mpw);
 		
-		MemberVO mvo = new MemberVO();
-		mvo = memberService.memberLogin(mvo);
-		
-		if(mvo.getMid() != "" || mvo.getMid() != null) {
-			//세션 가져오기
-			HttpSession session = request.getSession();
-			session.setAttribute(mid, mvo.getMid());
-			session.setAttribute(mpw, mvo.getMpw());
-			//세션 시간을 무한대로 지정
-			session.setMaxInactiveInterval(-1);
+		MemberVO mvo1 = memberService.memberLogin(mvo);
+		logger.info(mvo1.getMnum());
+		if(mvo1.getMid() != null || mvo1.getMid() != "") {
+			// 암호화된 비밀번호를 비교하여 참일경우 로그인 진행
+			boolean bool = passwordEncoder.matches(mpw, mvo1.getMpw());
+			logger.info("bool : " + bool);
 			
-			model.addAttribute("mvo", mvo);
+			if(bool) {
+				logger.info("로그인 성공");
+				HttpSession session = request.getSession(); //세션부여
+				session.setAttribute("mnum", mvo1.getMnum()); 
+				session.setAttribute("mid", mvo1.getMid());
+				session.setMaxInactiveInterval(-1);//세션 무한대
+				
+				return "/login/loginOK";
+				
+			}else{
+				logger.info("로그인 실패");
+				
+				return "/login/loginX";
+			}
 		}else {
 			return "/login/loginX";
 		}
-		return "/login/loginOK";
+	}
+	
+	//로그아웃
+	//완료
+	@RequestMapping(value="logout", method=RequestMethod.GET)
+	public String memberLogout(HttpServletRequest request, HttpSession session) {
+		logger.info("Controller memberlogout 함수진입");
+		session.invalidate(); //세션을 삭제
+		return "/login/logout";
 	}
 	
 	//아이디 중복체크
@@ -183,4 +206,107 @@ public class MemberController {
 //			}
 //		return "email";
 //	}
+	
+	// 마이페이지에서 자신의 정보 불러오기
+	@RequestMapping(value="mypage", method=RequestMethod.POST)
+	public String memberPage(MemberVO mvo, HttpServletRequest request, Model model) {
+		logger.info("Controller memberPage 함수 진입");
+		//로그인된 상태에서의 (mnum의)세션값을 가져온다
+		HttpSession session = request.getSession();
+		logger.info(session.getAttribute("mnum"));
+		String mnum = (String)session.getAttribute("mnum");
+
+		//로그인된 세션의 mnum값으로 회원의 정보불러오기 위한 작업
+		mvo.setMnum(mnum);
+		
+		List<MemberVO> listM = memberService.memberPage(mvo);
+		int nCnt = listM.size();
+		logger.info("nCnt : " + nCnt);
+		if(nCnt == 1) {
+			model.addAttribute("listM", listM);
+			return "/member/mypage";
+		}else {
+			
+			return "/login/loginX";
+		}
+	}
+	
+	//회원 수정
+	@RequestMapping(value="update", method=RequestMethod.POST)
+	public String memberUpdate(MemberVO mvo, HttpServletRequest request, Model model) {
+		logger.info("Controller memberUpdate 함수 진입");
+		//핸드폰 
+		String mph1 = request.getParameter("mph1");
+		String mph2 = request.getParameter("mph2");
+		String mph3 = request.getParameter("mph3");
+		String mph = mph1+"-"+mph2+"-"+mph3;
+				
+		//이메일
+		String memail1 = request.getParameter("memail1");
+		String memail2 = request.getParameter("memail2");
+		String memail = memail1+"@"+memail2;
+		
+		mvo.setMph(mph);
+		mvo.setMemail(memail);
+		
+		logger.info(mvo.getMnum());
+		logger.info(mvo.getMid());
+		logger.info(mvo.getMzonecode());
+		logger.info(mvo.getMaddress_road());
+		logger.info(mvo.getMaddress_detail());
+		logger.info(mvo.getMph());
+		logger.info(mvo.getMemail());
+		
+		
+		int nCnt = memberService.memberUpdate(mvo);
+		logger.info(nCnt);
+		
+		logger.info(mvo.getMzonecode());
+		logger.info(mvo.getMaddress_road());
+		logger.info(mvo.getMaddress_detail());
+		logger.info(mvo.getMph());
+		logger.info(mvo.getMemail());
+		if(nCnt == 1) {
+			
+			HttpSession session = request.getSession();
+			logger.info(session.getAttribute("mnum"));
+			String mnum = (String)session.getAttribute("mnum");
+			
+			List<MemberVO> listM = memberService.memberPage(mvo);
+			int nCnt1 = listM.size();
+			logger.info("nCnt : " + nCnt);
+			
+			if(nCnt1 == 1) {
+				model.addAttribute("listM", listM);
+				return "/member/updateOK";
+			}
+		}	
+		return "/member/mypage";
+	}
+	
+	//회원 탈퇴
+	@RequestMapping(value="delete", method=RequestMethod.POST)
+	public String memberDelete(MemberVO mvo, HttpServletRequest request) {
+		logger.info("Controller memberDelete 함수 진입");
+		logger.info(mvo.getMnum());
+		logger.info(mvo.getMid());
+		logger.info(mvo.getMzonecode());
+		logger.info(mvo.getMaddress_road());
+		logger.info(mvo.getMaddress_detail());
+		logger.info(mvo.getMph());
+		logger.info(mvo.getMemail());
+		
+		int nCnt = memberService.memberDelete(mvo);
+		logger.info(nCnt);
+		
+		if(nCnt == 1) {
+			HttpSession session = request.getSession();
+			logger.info(session.getAttribute("mnum"));
+			String mnum = (String)session.getAttribute("mnum");
+			session.invalidate();
+			return "/login/loginform";
+		}
+		return "/member/mypage";
+	}
 }
+
