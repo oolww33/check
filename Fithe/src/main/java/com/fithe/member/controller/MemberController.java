@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fithe.common.Chabun;
 import com.fithe.common.service.ChabunService;
+import com.fithe.common.service.ScheduleService;
+import com.fithe.common.vo.ScheduleVO;
 import com.fithe.member.service.MemberService;
 import com.fithe.member.vo.MemberVO;
 
@@ -33,15 +36,17 @@ public class MemberController {
 	private PasswordEncoder passwordEncoder;
 	private MemberService memberService;
 	private ChabunService chabunService;
+	private ScheduleService scheduleService;
 	
 	//Autowired 어노테이션으로 의존성 주입
 	@Autowired(required=false)
 	public MemberController ( MemberService memberService, ChabunService chabunService
-			, PasswordEncoder passwordEncoder, JavaMailSenderImpl mailSender) {
+			, PasswordEncoder passwordEncoder, JavaMailSenderImpl mailSender,ScheduleService scheduleService) {
 		this.memberService = memberService;
 		this.chabunService = chabunService;
 		this.passwordEncoder = passwordEncoder;
 		this.mailSender = mailSender;
+		this.scheduleService = scheduleService;
 	}
 	
 	// login 페이지로 이동만을 하기 때문에 method는 GET으로 하였다.
@@ -90,14 +95,8 @@ public class MemberController {
 		String memail = memail1+"@"+memail2;
 		
 		mvo.setMnum(mnum);
-		mvo.setMid(request.getParameter("mid"));
 		mvo.setMpw(mpw);
-		mvo.setMname(request.getParameter("mname"));
 		mvo.setMbir(mbir);
-		mvo.setMgender(request.getParameter("mgender"));
-		mvo.setMzonecode(request.getParameter("mzonecode"));
-		mvo.setMaddress_road(request.getParameter("maddress_road"));
-		mvo.setMaddress_detail(request.getParameter("maddress_detail"));
 		mvo.setMph(mph);
 		mvo.setMemail(memail);
 		
@@ -130,18 +129,17 @@ public class MemberController {
 	public String memberLogin(HttpServletRequest request, MemberVO mvo, Model model) {
 		logger.info("Controller memberlogin 함수진입");
 		String mpw = request.getParameter("mpw");
-		logger.info("mpw : " + mpw);
 		
 		MemberVO mvo1 = memberService.memberLogin(mvo);
-		logger.info(mvo1.getMnum());
+		logger.info(mvo1.getMid());
 		if(mvo1.getMid() != null || mvo1.getMid() != "") {
+			HttpSession session = request.getSession(); //세션부여
 			// 암호화된 비밀번호를 비교하여 참일경우 로그인 진행
 			boolean bool = passwordEncoder.matches(mpw, mvo1.getMpw());
 			logger.info("bool : " + bool);
 			
 			if(bool) {
 				logger.info("로그인 성공");
-				HttpSession session = request.getSession(); //세션부여
 				session.setAttribute("mnum", mvo1.getMnum()); 
 				session.setAttribute("mid", mvo1.getMid());
 				session.setMaxInactiveInterval(-1);//세션 무한대
@@ -150,7 +148,6 @@ public class MemberController {
 				
 			}else{
 				logger.info("로그인 실패");
-				
 				return "/login/loginX";
 			}
 		}else {
@@ -184,31 +181,10 @@ public class MemberController {
 		return result;
 	}
 	
-//	@RequestMapping(value="/mail")
-//	public String mailSending(HttpServletRequest request) {
-//		String setform = "oolww11@gmail.com";
-//		String tomail = request.getParameter("tomail");
-//		String title = request.getParameter("title");
-//		String content = request.getParameter("content");
-//		
-//		try {
-//			  MimeMessage message = mailSender.createMimeMessage();
-//			  MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-//			  messageHelper.setFrom(setform);  // 보내는사람 생략하거나 하면 정상작동을 안함
-//			  messageHelper.setTo(tomail);     // 받는사람 이메일
-//			  messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
-//			  messageHelper.setText(content);  // 메일 내용
-//			
-//			  mailSender.send(message);
-//
-//			} catch(Exception e){
-//			  System.out.println(e);
-//			}
-//		return "email";
-//	}
+	
 	
 	// 마이페이지에서 자신의 정보 불러오기
-	@RequestMapping(value="mypage", method=RequestMethod.POST)
+	@RequestMapping(value="myinfo", method=RequestMethod.POST)
 	public String memberPage(MemberVO mvo, HttpServletRequest request, Model model) {
 		logger.info("Controller memberPage 함수 진입");
 		//로그인된 상태에서의 (mnum의)세션값을 가져온다
@@ -260,7 +236,6 @@ public class MemberController {
 		
 		int nCnt = memberService.memberUpdate(mvo);
 		logger.info(nCnt);
-		
 		logger.info(mvo.getMzonecode());
 		logger.info(mvo.getMaddress_road());
 		logger.info(mvo.getMaddress_detail());
@@ -269,14 +244,15 @@ public class MemberController {
 		if(nCnt == 1) {
 			
 			HttpSession session = request.getSession();
-			logger.info(session.getAttribute("mnum"));
-			String mnum = (String)session.getAttribute("mnum");
+			logger.info("session : " + session.getAttribute("mnum"));
 			
 			List<MemberVO> listM = memberService.memberPage(mvo);
 			int nCnt1 = listM.size();
 			logger.info("nCnt : " + nCnt);
 			
 			if(nCnt1 == 1) {
+				model.addAttribute("message", "수정 하시겠습니까?");
+				model.addAttribute("url", "mypage.fit");
 				model.addAttribute("listM", listM);
 				return "/member/updateOK";
 			}
@@ -301,12 +277,137 @@ public class MemberController {
 		
 		if(nCnt == 1) {
 			HttpSession session = request.getSession();
-			logger.info(session.getAttribute("mnum"));
-			String mnum = (String)session.getAttribute("mnum");
 			session.invalidate();
 			return "/login/loginform";
 		}
 		return "/member/mypage";
 	}
+	
+
+	// 이메일보내기
+	@RequestMapping(value="/mail")
+	public String mailSending(HttpServletRequest request) {
+		String setform = "oolww11@gmail.com";
+		String tomail = "oolww33@naver.com";
+		String title = "test";
+		String content = "test";
+		final MimeMessagePreparator preparator = new MimeMessagePreparator() { 		
+			@Override 
+			public void prepare(MimeMessage mimeMessage) throws Exception { 
+				
+				final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+					helper.setFrom(mailSender.getUsername()); 
+					helper.setTo(tomail); 
+					helper.setSubject(title); 
+					helper.setText(content); 
+				} 
+			}; 
+			
+			mailSender.send(preparator); 
+			
+			return "/login/loginform";
+	}
+	
+	//아이디찾기 창으로이동
+	@RequestMapping(value="idfind", method=RequestMethod.GET)
+	public String idFind() {
+		logger.info("Controller idFind 함수 진입");
+		return "/find/idfind";
+	}
+	
+	//아이디찾기
+	@RequestMapping(value="idfindOK", method=RequestMethod.POST)
+	public String idFindOK(HttpServletRequest request, MemberVO mvo) {
+		logger.info("Controller idFindOK 함수 진입");
+		String mname = request.getParameter("mname");
+		String memail = request.getParameter("memail");
+		
+		logger.info("이름 : " + mname);
+		logger.info("이메일 : " + memail);
+		
+		MemberVO mvo1 = memberService.memberIdFind(mvo);
+		logger.info(mvo1);
+		
+		if(mvo1 != null) {
+			logger.info(mvo1.getMid());
+			return "/find/idfindOK";
+		}else {
+			return "/find/idfindX";
+		}
+		
+	}
+	
+	//비밀번호 찾기 창으로이동
+	@RequestMapping(value="pwfind", method=RequestMethod.GET)
+	public String pwFind() {
+		logger.info("Controller pwFind 함수 진입");
+		return "/find/pwfind";	
+	}
+	
+	//비밀번호 찾기
+	@RequestMapping(value="pwfindOK", method=RequestMethod.POST)
+	public String pwFindOK(HttpServletRequest request, MemberVO mvo) {
+		logger.info("Controller pwFindOK 함수 진입");
+		String mid = request.getParameter("mid");
+		String memail = request.getParameter("memail");
+		
+		logger.info("아이디 : " + mid);
+		logger.info("이메일 : " + memail);
+		
+		
+		return "/find/pwfindOK";
+	}
+	
+	@RequestMapping(value="schedulePopup", method=RequestMethod.GET)
+	public String popup() {
+		return "/member/schedulePopup";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="scheduleinsert", method=RequestMethod.POST)
+	public String scheduleInsert(HttpServletRequest request, ScheduleVO svo) {
+		logger.info("Controller scheduleInsert 함수 진입");
+		String sdate = request.getParameter("sdate");
+		String smemo = request.getParameter("smemo");
+		String smemo1 = request.getParameter("smemo1");
+		String smemo2 = request.getParameter("smemo2");
+		String smemo3 = request.getParameter("smemo3");
+		String smemo4 = request.getParameter("smemo4");
+		logger.info(sdate);
+		logger.info(smemo);
+		logger.info(smemo1);
+		logger.info(smemo2);
+		logger.info(smemo3);
+		logger.info(smemo4);
+		int nCnt = scheduleService.scheduleInsert(svo);
+		logger.info(nCnt);
+		if(nCnt == 1) {
+			return "G";
+		}else {
+			return "B";
+		}		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/scheduleSelect", method=RequestMethod.POST)
+	public String scheduleSelect(Model model, ScheduleVO svo) {
+		List<ScheduleVO> list = scheduleService.scheduleSelect(svo);
+		logger.info(list.get(0).getSdate());
+		model.addAttribute("list", list);
+		return "lists";
+	}
+	
+	// 마이페이지로 페이지이동
+	@RequestMapping(value="mypage", method=RequestMethod.GET)
+	public String memberInfo() {
+		return "/member/meminfo";
+	}
+	
+	// 마이페이지로 페이지이동
+//	@RequestMapping(value="mypage", method=RequestMethod.GET)
+//	public String memberInfo(MemberVO mvo, HttpServletRequest request) {
+//		return "/member/meminfo";
+//	}
 }
+
 

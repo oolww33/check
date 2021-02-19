@@ -6,4 +6,5 @@
 	<select id="getChabun" resultType="com.fithe.member.vo.MemberVO">
 		SELECT NVL(MAX(SUBSTR(MNUM, -4)),0) + 1 MNUM FROM FIT_MEMBER
 	</select>
+
 </mapper>

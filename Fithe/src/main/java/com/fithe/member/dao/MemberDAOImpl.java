@@ -59,4 +59,22 @@ public class MemberDAOImpl implements MemberDAO {
 		return (Integer)sqlSession.update("memberDelete", mvo);
 	}
 
+	@Override
+	public MemberVO memberIdFind(MemberVO mvo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberIdFind", mvo);
+	}
+
+	@Override
+	public MemberVO memberPwFind(MemberVO mvo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberPwFind", mvo);
+	}
+
+//	@Override
+//	public int memberPwChange(MemberVO mvo) {
+//		// TODO Auto-generated method stub
+//		return (Integer)sqlSession.update("memberPwChange", mvo);
+//	}
+
 }

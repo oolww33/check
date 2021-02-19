@@ -57,4 +57,5 @@
 	
 	<!-- 비밀번호 암호화 setting -->
 	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	
 </beans>

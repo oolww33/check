@@ -7,6 +7,7 @@
 	<head>
 	<meta charset="UTF-8">
 	<title>UPDATE OK</title>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	</head>
 	<%
 		Object obj = request.getAttribute("listM");
@@ -19,11 +20,15 @@
 	<%
 		if(nCnt == 1){
 	%>
-		<script>
-			alert("수정 완료");
+		<script type="text/javascript">
+			var message = '${message}';
+			var returnurl = '${url}';
+			alert(message);
+			location.href= returnurl;
 		</script>
 	<%
 		}
 	%>
+
 	</body>
 </html>

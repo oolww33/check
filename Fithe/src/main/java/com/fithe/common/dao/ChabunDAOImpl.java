@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.fithe.common.vo.ScheduleVO;
 import com.fithe.member.vo.MemberVO;
 
 @Repository
@@ -18,5 +19,6 @@ public class ChabunDAOImpl implements ChabunDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("getChabun");
 	}
+
 
 }

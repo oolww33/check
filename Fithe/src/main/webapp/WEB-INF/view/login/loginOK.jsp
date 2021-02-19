@@ -13,18 +13,12 @@
 		<script type="text/javascript">
 			$(document).ready(function(){
 				$(document).on("click","#mypagebutton",function(){
-					console.log("마이페이지");
+					console.log("info");
 					$("#mypageForm").attr('action',"mypage.fit");
-					$("#mypageForm").attr('method',"POST");
+					$("#mypageForm").attr('method',"GET");
 					$("#mypageForm").submit();
 				});
 				
-// 				$(document).on("click","#logoutbutton",function(){
-// 					alert("로그 아웃");
-// 					$("#logoutbutton").attr('action',"logout.fit");
-// 					$("#logoutbutton").attr('method',"GET");
-// 					$("#logoutbutton").submit();
-// 				});
 			});
 		</script>
 	</head>

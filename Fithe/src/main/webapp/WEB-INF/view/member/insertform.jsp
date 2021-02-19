@@ -15,6 +15,96 @@
 			$(document).ready(function(){
 				$(document).on("click","#insertbutton",function(){
 					console.log("등록버튼 클릭");
+					
+					//유효성 검사
+					if(insertForm.mid.value == ""){
+						alert("아이디를 입력해주세요");
+						document.getElementById("mid").focus();
+						return false;
+					}else{
+						document.getElementById("mpw").focus();
+					}
+					
+					if(insertForm.mpw.value == ""){
+						alert("비밀번호를 입력해주세요");
+						document.getElementById("mpw").focus();
+						return false;
+					}else{
+						document.getElementById("mname").focus();
+					}
+					
+					if(insertForm.mname.value == ""){
+						alert("이름을 입력해주세요");
+						document.getElementById("mname").focus();
+						return false;
+					}else{
+						document.getElementById("mbiry").focus();
+					}
+					
+					if(insertForm.mbiry.value == ""){
+						alert("연도를 입력해주세요");
+						document.getElementById("mbiry").focus();
+						return false;
+					}else{
+						document.getElementById("mbirm").focus();
+					}
+					
+					if(insertForm.mbirm.value == ""){
+						alert("월을 입력해주세요");
+						document.getElementById("mbirm").focus();
+						return false;
+					}else{
+						document.getElementById("mbird").focus();
+					}
+					
+					if(insertForm.mbird.value == ""){
+						alert("일을 입력해주세요");
+						document.getElementById("mbird").focus();
+						return false;
+					}else{
+						document.getElementById("mzonecode").focus();
+					}
+					
+					if(insertForm.mzonecode.value == ""){
+						alert("주소 찾기를 해주세요");
+						document.getElementById("mzonecode").focus();
+						return false;
+					}else{
+						document.getElementById("maddress_detail").focus();
+					}
+					
+					if(insertForm.maddress_detail.value == ""){
+						alert("상세주소를 입력해주세요");
+						document.getElementById("maddress_detail").focus();
+						return false;
+					}else{
+						document.getElementById("mph2").focus();
+					}
+					
+					if(insertForm.mph2.value == ""){
+						alert("핸드폰 번호를 입력해주세요");
+						document.getElementById("mph2").focus();
+						return false;
+					}else{
+						document.getElementById("mph3").focus();
+					}
+					
+					if(insertForm.mph3.value == ""){
+						alert("핸드폰 번호를 입력해주세요");
+						document.getElementById("mph3").focus();
+						return false;
+					}else{
+						document.getElementById("memail1").focus();
+					}
+					
+					if(insertForm.memail1.value == ""){
+						alert("핸드폰 번호를 입력해주세요");
+						document.getElementById("memail1").focus();
+						return false;
+					}else{
+						document.getElementById("memail2").focus();
+					}
+					
 					document.insertForm.action="/Fithe/insert.fit";
 					document.insertForm.method = "POST";
 // 					document.insertForm.enctype = "application/www-form-urlencoded";

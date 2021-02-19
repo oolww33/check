@@ -16,7 +16,6 @@
 		<script type="text/javascript">
 			$(document).ready(function(){
 				$(document).on("click","#updatebutton",function(){
-					alert("수정");
 					$("#mypageForm").attr('action',"update.fit");
 					$("#mypageForm").attr('method',"POST");
 					$("#mypageForm").submit();
@@ -40,11 +39,12 @@
 					history.go(-1);
 				});
 				
-// 				$(document).on("click","#pwcheck", function(){
-// 					var mpw1 = $("#mpw").val();
-<%-- 					var mpw2 = '<%=mpw %>'; --%>
-// 					console.log(mpw);
-// 					if(mpw1 == )
+// 				$("#mpwchange").click(function(event){
+// 					console.log("비밀번호 변경");
+// 					$("#mypageForm").attr('action',"pwchange.fit");
+// 					$("#mypageForm").attr('metdho',"POST");
+// 					$("#mypageForm").submit();
+					
 // 				});
 			});
 		</script>
@@ -106,11 +106,12 @@
 			memail = mvo.getMemail();
 		}
 		
+		System.out.println(mpw);
 		//이메일
 		String memail1 = memail.split("@")[0];
 		String memail2 = memail.split("@")[1];
-		
 	%>
+	
 	<script>
 		function check(){
 			
@@ -181,6 +182,13 @@
 					</td>
 				</tr>
 				<tr>
+					<td class="mem">비밀번호</td>
+					<td>
+						<input type="password" id="mpw" name="mpw" value="<%=mpw%>"/>
+						<input type="button" id="mpwchange" value="비밀번호 변경"/>
+					</td>
+				</tr>
+				<tr>
 					<td class="mem">이름</td>
 					<td>
 					<input type="text" id="mname" name="mname" value="<%=mname %>"/>
@@ -236,13 +244,7 @@
 <!-- 					</select> -->
 					</td>
 				</tr>
-				<tr>
-					<td class="mem">비밀번호 확인</td>
-					<td>
-						<input type="password" id="mpw" name="mpw"/>
-						<input type="button" value="비밀번호 확인">
-					</td>
-				</tr>
+				
 				<tr>
 					<td colspan="2" align="center">
 					<input type="button" id="updatebutton" value="회원 수정" />

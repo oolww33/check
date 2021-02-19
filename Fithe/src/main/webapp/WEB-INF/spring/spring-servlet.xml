@@ -13,7 +13,7 @@
 	<mvc:annotation-driven/>
 	<!-- 의존성 주입 -->
 	<context:component-scan base-package="com.fithe.**"/>
-	
+	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 	
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>

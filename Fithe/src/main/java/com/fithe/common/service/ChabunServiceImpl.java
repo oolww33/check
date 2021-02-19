@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fithe.common.dao.ChabunDAO;
+import com.fithe.common.vo.ScheduleVO;
 import com.fithe.member.vo.MemberVO;
 
 @Service
@@ -25,5 +26,6 @@ public class ChabunServiceImpl implements ChabunService {
 		MemberVO mvo = chabunDAO.getChabun();
 		return mvo;
 	}
+
 
 }

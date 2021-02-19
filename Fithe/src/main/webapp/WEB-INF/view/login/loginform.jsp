@@ -21,6 +21,20 @@
 // 					document.insertForm.enctype = "application/www-form-urlencoded";
 					document.loginForm.submit();
 				});
+				
+				$(document).on("click","#idfind", function(){
+					alert("아이디 찾기");
+					document.loginForm.action="/Fithe/idfind.fit";
+					document.loginForm.method="GET";
+					document.loginForm.submit();
+				});
+				
+				$(document).on("click","#pwfind", function(){
+					alert("비밀번호 찾기");
+					document.loginForm.action="/Fithe/pwfind.fit";
+					document.loginForm.method="GET";
+					document.loginForm.submit();
+				});
 			});
 		</script>
 	</head>

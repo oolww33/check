@@ -24,4 +24,13 @@ public interface MemberService {
 	
 	//회원 삭제
 	public int memberDelete(MemberVO mvo);
+	
+//	//비밀번호 변경
+//	public int memberPwChange(MemberVO mvo);
+	
+	//아이디 찾기
+	public MemberVO memberIdFind(MemberVO mvo);
+	
+	//비밀번호 찾기
+	public MemberVO memberPwFind(MemberVO mvo);
 }

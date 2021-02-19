@@ -79,4 +79,25 @@ public class MemberServiceImpl implements MemberService {
 		logger.info("MemberServiceImpl memberDelete함수진입");
 		return memberDAO.memberDelete(mvo);
 	}
+
+	@Override
+	public MemberVO memberIdFind(MemberVO mvo) {
+		// TODO Auto-generated method stub
+		logger.info("MemberServiceImpl memberIdFind함수진입");
+		return memberDAO.memberIdFind(mvo);
+	}
+
+	@Override
+	public MemberVO memberPwFind(MemberVO mvo) {
+		// TODO Auto-generated method stub
+		logger.info("MemberServiceImpl memberPwFind함수진입");
+		return memberDAO.memberPwFind(mvo);
+	}
+
+//	@Override
+//	public int memberPwChange(MemberVO mvo) {
+//		// TODO Auto-generated method stub
+//		logger.info("MemberServiceImpl memberPwChange함수진입");
+//		return memberDAO.memberPwChange(mvo);
+//	}
 }
