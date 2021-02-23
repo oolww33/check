@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List"%>
-<%@ page import="com.fithe.common.vo.ScheduleVO" %>
+<%@ page import="com.fithe.schedule.vo.ScheduleVO" %>
 <%
 	String num = (String)session.getAttribute("mnum");
 	String id = (String)session.getAttribute("mid");
@@ -104,7 +104,6 @@
 			    		   			title : '5 : ' + '<%=svo.getSmemo4() %>',
 			    		   			start : '<%=svo.getSdate()%>'
 			    		   		},
-
 
 			    		   <%
 			    		   	}

@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fithe.common.dao.ChabunDAO;
-import com.fithe.common.vo.ScheduleVO;
 import com.fithe.member.vo.MemberVO;
+import com.fithe.schedule.vo.ScheduleVO;
 
 @Service
 @Transactional

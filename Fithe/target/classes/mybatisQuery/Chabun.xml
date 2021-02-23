@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+						"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fithe.common.dao.ChabunDAO">
+	
+	<select id="getChabun" resultType="com.fithe.member.vo.MemberVO">
+		SELECT NVL(MAX(SUBSTR(MNUM, -4)),0) + 1 MNUM FROM FIT_MEMBER
+	</select>
+
+</mapper>
