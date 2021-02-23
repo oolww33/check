@@ -5,6 +5,8 @@
 <%
 	String num = (String)session.getAttribute("mnum");
 	String id = (String)session.getAttribute("mid");
+	Object obj = request.getAttribute("list");
+	List<ScheduleVO> lists = (List)obj;
 %>
 
 <!DOCTYPE html>
@@ -13,8 +15,6 @@
 		<meta charset="UTF-8">
 		<title>MY PAGE</title>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<!-- 		<link href="/assets/demo-to-codepen.css" rel="stylesheet"> -->
-<!-- 		<script src="/assets/demo-to-codepen.js"></script> -->
 		<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.css" rel="stylesheet">
 		<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.js"></script>
 		<script type="text/javascript">
@@ -34,7 +34,7 @@
 					font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif; 
 					font-size: 14px; } 
 			#calendar { 
-				max-width: 500px; 
+				max-width: 500px;
 				margin: 0 auto; 
 			}	
 		</style>
@@ -47,16 +47,23 @@
 			    	headerToolbar : {  //상단탭위치에 놓일 것들
 			    		left: '', 
 			    		center: 'title', 
-			    		right: 'today prev,next' },
+			    		right: 'today prevYear,prev,next,nextYear' },
 			    	footerToolbar :{
 			    		left: '',
 			    		center: '',
-			    		right: 'coustom2 coustom1'
+			    		right: 'coustom1'
 			    	},
 			    	timeZone : 'local', //우리나라 시간기준
-			    	selectable: true,	//날짜 선택시 색변경
 			    	locale : "ko", //한글화
+			    	fixedWeekCount : false, // flase 일경우 4~5주만 보이도록, true이면 6주가보이게 됨
+// 			    	showNonCurrentDates : false, //다음달 표시 안되게하는것 
 			    	navLinks: true,
+// 			    	navLinkDayClick: function() { //필요할시
+// 			    		console.log("할것입력");
+// 			    	},
+			    	dateClick : function(){
+			    		alert("일정");  //수정 필요없고 삭제는 있어도무방
+			    	},
 			    	customButtons:{
 			    		coustom1:{
 			    			text : '입력',
@@ -66,66 +73,44 @@
 			    				var option = "width=600, height = 600, left=100, top=50, location=no ";
 			    				window.open(url,name,option)
 			    			}
-			    		},
-			    		coustom2:{
-			    			text: '조회',
-			    			click: function(){
-			    				var mid = "<%=id%>";
-			    				var surl = "scheduleSelect.fit";
-			    				var method = "POST";
-			    				var datas = {"mid" : mid};
-			    				
-			    				$.ajax({
-			    					url : surl,
-			    					type : method,
-			    					data : datas,
-			    					success : function(data){
-			    						if(data == "lists"){
-			    							alert("조회");
-			    						}else{
-			    							alert("실패");
-			    						}
-			    						
-			    					},
-			    					error : function(error){
-			    						alert("error : ", error);
-			    					}
-			    				});
-			    			}
 			    		}
 			    	},
 			    	events: [
-			    			
-<%-- 			    	   <% --%>
-// 			    	   	for(int i =0; i<list.size(); i++){
-// 			    	   		ScheduleVO svo = (ScheduleVO)list.get(i);
-<%-- 			    	   %> --%>
-// 			    	  		{
-<%-- 				    		    title  : '<%=svo.getSmemo()%>', --%>
-<%-- 				    		    start  : '<%=svo.getSdate()%>' --%>
-// 			    		    },
-// 			    		    {
-<%-- 					    		title  : '<%=svo.getSmemo1()%>', --%>
-<%-- 					    		start  : '<%=svo.getSdate()%>' --%>
-// 				    		},
-// 				    		{
-<%-- 					    		title  : '<%=svo.getSmemo2()%>', --%>
-<%-- 					    		start  : '<%=svo.getSdate()%>' --%>
-// 				    		},
-// 				    		{
-<%-- 					    		title  : '<%=svo.getSmemo3()%>', --%>
-<%-- 					    		start  : '<%=svo.getSdate()%>' --%>
-// 				    		},
-// 				    		{
-<%-- 				    			title  : '<%=svo.getSmemo4()%>', --%>
-<%-- 				    			start  : '<%=svo.getSdate()%>' --%>
-// 				    		}	    
-			    	
-<%-- 			    	   <% --%>
-// 			    	   	}
-<%-- 			    	   %> --%>
-			    	  ]
-			    }
+			    		   <%
+			    		   	for(int i=0; i<lists.size(); i++){
+			    		   		ScheduleVO svo = (ScheduleVO)lists.get(i);
+			    		   %>
+			    		   		{
+			    		   			title : '1 : '+'<%=svo.getSmemo() %>',
+			    		   			start : '<%=svo.getSdate()%>'
+			    		   		},
+			    		   		
+			    		   		{
+			    		   			title : '2 : ' + '<%=svo.getSmemo1() %>',
+			    		   			start : '<%=svo.getSdate()%>'
+			    		   		},
+			    		   		
+			    		   		{
+			    		   			title : '3 : ' + '<%=svo.getSmemo2() %>',
+			    		   			start : '<%=svo.getSdate()%>'
+			    		   		},
+			    		   		
+			    		   		{
+			    		   			title : '4 : ' + '<%=svo.getSmemo3() %>',
+			    		   			start : '<%=svo.getSdate()%>'
+			    		   		},
+			    		   		
+			    		   		{
+			    		   			title : '5 : ' + '<%=svo.getSmemo4() %>',
+			    		   			start : '<%=svo.getSdate()%>'
+			    		   		},
+
+
+			    		   <%
+			    		   	}
+			    		   %>
+			    	]
+			    });
 		    calendar.render();
 	    });
 
@@ -135,12 +120,7 @@
 
 	</head>
 	<body>
-		<%
-// 			Object obj = session.getAttribute("list");
-			Object obj = request.getAttribute("list");
-			List<ScheduleVO> lists = (List)obj;
-			System.out.println(lists.size());
-		%>
+
 		세션 ID : <%=session.getId() %> <br>
 		세션 생성 시간 : <%=session.getMaxInactiveInterval()%>ms<br>
 		<form id="mypage">

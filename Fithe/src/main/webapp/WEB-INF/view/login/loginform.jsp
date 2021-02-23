@@ -14,6 +14,12 @@
 					
 				});
 				
+				$(document).on("keypress","#mpw", function(e){
+					if(e.keyCode == '13'){
+						$('#loginbutton').click();
+					}
+				});
+
 				$(document).on("click","#loginbutton",function(){
 					alert("로그인 ");
 					document.loginForm.action="/Fithe/login.fit";

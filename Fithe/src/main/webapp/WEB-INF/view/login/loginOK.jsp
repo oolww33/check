@@ -15,7 +15,7 @@
 				$(document).on("click","#mypagebutton",function(){
 					console.log("info");
 					$("#mypageForm").attr('action',"mypage.fit");
-					$("#mypageForm").attr('method',"GET");
+					$("#mypageForm").attr('method',"POST");
 					$("#mypageForm").submit();
 				});
 				

@@ -363,9 +363,13 @@ public class MemberController {
 		return "/member/schedulePopup";
 	}
 	
+	//스케줄 입력
+	//ajax 통신으로 ResponseBody 어노티에션 사용 
 	@ResponseBody
 	@RequestMapping(value="scheduleinsert", method=RequestMethod.POST)
 	public String scheduleInsert(HttpServletRequest request, ScheduleVO svo) {
+		HttpSession session = request.getSession();
+		String mid = (String)session.getAttribute("mid");
 		logger.info("Controller scheduleInsert 함수 진입");
 		String sdate = request.getParameter("sdate");
 		String smemo = request.getParameter("smemo");
@@ -379,6 +383,8 @@ public class MemberController {
 		logger.info(smemo2);
 		logger.info(smemo3);
 		logger.info(smemo4);
+		logger.info(mid);
+		svo.setMid(mid);
 		int nCnt = scheduleService.scheduleInsert(svo);
 		logger.info(nCnt);
 		if(nCnt == 1) {
@@ -388,26 +394,22 @@ public class MemberController {
 		}		
 	}
 	
-	@ResponseBody
-	@RequestMapping(value="/scheduleSelect", method=RequestMethod.POST)
-	public String scheduleSelect(Model model, ScheduleVO svo) {
-		List<ScheduleVO> list = scheduleService.scheduleSelect(svo);
-		logger.info(list.get(0).getSdate());
+
+	
+	// 마이페이지로 페이지이동
+	@RequestMapping(value="mypage", method= {RequestMethod.GET, RequestMethod.POST})
+	public String memberInfo(Model model, ScheduleVO svo, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String mid = (String)session.getAttribute("mid");
+		logger.info(mid);
+		List<ScheduleVO> list = scheduleService.scheduleSelect(mid);
+		logger.info(list.size());
 		model.addAttribute("list", list);
-		return "lists";
-	}
-	
-	// 마이페이지로 페이지이동
-	@RequestMapping(value="mypage", method=RequestMethod.GET)
-	public String memberInfo() {
 		return "/member/meminfo";
+			
 	}
+
 	
-	// 마이페이지로 페이지이동
-//	@RequestMapping(value="mypage", method=RequestMethod.GET)
-//	public String memberInfo(MemberVO mvo, HttpServletRequest request) {
-//		return "/member/meminfo";
-//	}
 }
 
 
