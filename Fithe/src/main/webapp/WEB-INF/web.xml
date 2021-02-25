@@ -33,7 +33,7 @@
   <!-- Map all requests to the DispatcherServlet for handling -->
   <servlet-mapping>
   	<servlet-name>DispatcherServlet</servlet-name>
-  	<url-pattern>*.fit</url-pattern>
+  	<url-pattern>*.do</url-pattern>
   </servlet-mapping>
   
    <!-- UTF-8 한글 인코딩 -->

@@ -16,7 +16,7 @@
 		<script type="text/javascript">
 			$(document).ready(function(){
 				$(document).on("click","#updatebutton",function(){
-					$("#mypageForm").attr('action',"update.fit");
+					$("#mypageForm").attr('action',"update.do");
 					$("#mypageForm").attr('method',"POST");
 					$("#mypageForm").submit();
 // 					document.mypageForm.action="/Fithe/update.fit";
@@ -27,7 +27,7 @@
 				
 				$(document).on("click","#deletebutton",function(){
 					alert("탈퇴");
-					$("#mypageForm").attr('action',"delete.fit");
+					$("#mypageForm").attr('action',"delete.do");
 					$("#mypageForm").attr('method',"POST");
 					$("#mypageForm").submit();
 // 					document.mypageForm.action="/Fithe/delete.fit";

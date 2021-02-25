@@ -21,7 +21,7 @@
 			$(document).ready(function(){
 				$("#myinfo").click(function(){
 					console.log("내정보 가기");
-					$("#mypage").attr('action',"myinfo.fit");
+					$("#mypage").attr('action',"myinfo.do");
 					$("#mypage").attr('method',"POST");
 					$("#mypage").submit();
 				});
@@ -68,7 +68,7 @@
 			    		coustom1:{
 			    			text : '입력',
 			    			click: function(){
-			    				var url = "schedulePopup.fit";
+			    				var url = "schedulePopup.do";
 			    				var name = "schedulePopup";
 			    				var option = "width=600, height = 600, left=100, top=50, location=no ";
 			    				window.open(url,name,option)

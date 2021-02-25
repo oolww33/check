@@ -14,11 +14,17 @@
 			$(document).ready(function(){
 				$(document).on("click","#mypagebutton",function(){
 					console.log("info");
-					$("#mypageForm").attr('action',"mypage.fit");
+					$("#mypageForm").attr('action',"mypage.do");
 					$("#mypageForm").attr('method',"POST");
 					$("#mypageForm").submit();
 				});
 				
+				$(document).on("click","#youtubebutton",function(){
+					alert("유튜브게시판");
+					$("#mypageForm").attr('action',"youtube.do");
+					$("#mypageForm").attr('method',"POST");
+					$("#mypageForm").submit();
+				});
 			});
 		</script>
 	</head>
@@ -29,7 +35,8 @@
 		회원 아이디 : <%=id %>
 	<form id="mypageForm">
 		<input type="button" id="mypagebutton" value="마이 페이지">
-		<input type="button" id="logoutbutton" value="로그아웃" onclick="location.href='/Fithe/logout.fit'">
-	</form>
+		<input type="button" id="logoutbutton" value="로그아웃" onclick="location.href='/Fithe/logout.do'">
+		<input type="button" id="youtubebutton" value="유튜브" >
+ 	</form>
 	</body>
 </html>

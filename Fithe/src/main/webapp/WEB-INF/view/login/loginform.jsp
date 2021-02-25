@@ -10,7 +10,7 @@
 			$(document).ready(function(){
 				$(document).on("click","#insertbutton",function(){
 					console.log("회원가입");
-					location.href="/Fithe/insertForm.fit";
+					location.href="/Fithe/insertForm.do";
 					
 				});
 				
@@ -22,7 +22,7 @@
 
 				$(document).on("click","#loginbutton",function(){
 					alert("로그인 ");
-					document.loginForm.action="/Fithe/login.fit";
+					document.loginForm.action="/Fithe/login.do";
 					document.loginForm.method = "POST";
 // 					document.insertForm.enctype = "application/www-form-urlencoded";
 					document.loginForm.submit();
@@ -30,14 +30,14 @@
 				
 				$(document).on("click","#idfind", function(){
 					alert("아이디 찾기");
-					document.loginForm.action="/Fithe/idfind.fit";
+					document.loginForm.action="/Fithe/idfind.do";
 					document.loginForm.method="GET";
 					document.loginForm.submit();
 				});
 				
 				$(document).on("click","#pwfind", function(){
 					alert("비밀번호 찾기");
-					document.loginForm.action="/Fithe/pwfind.fit";
+					document.loginForm.action="/Fithe/pwfind.do";
 					document.loginForm.method="GET";
 					document.loginForm.submit();
 				});

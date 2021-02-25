@@ -105,7 +105,7 @@
 						document.getElementById("memail2").focus();
 					}
 					
-					document.insertForm.action="/Fithe/insert.fit";
+					document.insertForm.action="/Fithe/insert.do";
 					document.insertForm.method = "POST";
 // 					document.insertForm.enctype = "application/www-form-urlencoded";
 					document.insertForm.submit();
@@ -114,7 +114,7 @@
 				//아이디 중복체크 ajax로 구현
 				$(document).on("click","#idcheck",function(){
 					alert("아이디 중복확인 클릭");
-					let idURL = "idCheck.fit";
+					let idURL = "idCheck.do";
 					let method = "POST";
 					let dataPara = {mid : $("#mid").val()};
 					

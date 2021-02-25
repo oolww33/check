@@ -28,7 +28,7 @@
 			function click_ok(){
 					
 				$.ajax({
-					url : "scheduleinsert.fit",
+					url : "scheduleinsert.do",
 					type : "POST",
 					data : {
 						sdate :$("#startDate").val(),
@@ -55,30 +55,26 @@
 		</script>
 	</head>
 	<body>
-		<div>
-			<div>
-				<h1>일정 추가</h1>
-			</div>
-			<div>
-			<form id="scheduleData">
-				<tr>
-					<td><h3>선택하신 날짜</h3></td>
-					<td><input type="text" class="date" id="startDate" name="startDate" /></td>
-				</tr>
-				<tr>
-					<h3>메모</h3>
-					<td><input type="text" id="memo" name="memo" placeholder="입력"/><br></td>
-					<td><input type="text" id="memo1" name="memo1" placeholder="입력"/><br></td>
-					<td><input type="text" id="memo2" name="memo2" placeholder="입력"/><br></td>
-					<td><input type="text" id="memo3" name="memo3" placeholder="입력"/><br></td>
-					<td><input type="text" id="memo4" name="memo4" placeholder="입력"/><br></td>
-					<td><input type="file" id="image" name="image"></td>
-				</tr>
-				<tr>
-					<td><button class="ok-button" type="button" onclick="click_ok()">확인</button></td>
-				</tr>	
-			</form>
-			</div>
-		</div>
+			
+	<div>
+		<form id="scheduleData">
+			<h1>일정 추가</h1>
+			<tr>
+				<td><h3>선택하신 날짜</h3></td>
+				<td><input type="text" class="date" id="startDate" name="startDate" /></td>
+			</tr>
+			<tr>
+				<h3>메모</h3>
+				<td><input type="text" id="memo" name="memo" placeholder="입력"/></td>
+				<td><input type="text" id="memo1" name="memo1" placeholder="입력"/></td>
+				<td><input type="text" id="memo2" name="memo2" placeholder="입력"/></td>
+				<td><input type="text" id="memo3" name="memo3" placeholder="입력"/></td>
+				<td><input type="text" id="memo4" name="memo4" placeholder="입력"/></td>
+			</tr>
+			<tr>
+				<td><button type="button" onclick="click_ok()">확인</button></td>
+			</tr>	
+		</form>
+	</div>
 	</body>
 </html>

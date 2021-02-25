@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 						"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fithe.schedule.dao.ScheduleDAO">
-	<resultMap type="com.fithe.schedule.vo.ScheduleVO" id="resultVO">
+	<resultMap type="com.fithe.schedule.vo.ScheduleVO" id="ScheduleVO">
 		<result property="sdate" column="SDATE"/>
 		<result property="smemo" column="SMEMO"/>
 		<result property="smemo1" column="SMEMO1"/>
@@ -35,7 +35,7 @@
 			)
 	</insert>
 	
-	<select id="scheduleSelect" parameterType="com.fithe.schedule.vo.ScheduleVO" resultMap="resultVO">
+	<select id="scheduleSelect" parameterType="com.fithe.schedule.vo.ScheduleVO" resultMap="ScheduleVO">
 		SELECT * 
 		FROM FIT_SCHEDULE 
 		WHERE SDELYN = 'Y'

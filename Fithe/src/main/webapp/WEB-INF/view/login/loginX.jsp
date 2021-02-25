@@ -9,7 +9,7 @@
 	<body>
 		<script>
 			alert("다시 로그인해주세요");
-			location.href="/Fithe/loginform.fit";
+			location.href="/Fithe/loginform.do";
 		</script>
 	</body>
 </html>

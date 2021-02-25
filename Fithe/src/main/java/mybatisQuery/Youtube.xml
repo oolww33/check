@@ -2,5 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 						"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fithe.youtube.dao.YoutubeDAO">
+	<resultMap type="com.fithe.youtube.vo.YoutubeVO" id="YoutubeVO">
+		<result property="ylink" column="YLINK"/>
+		<result property="yid" column="YID"/>
+		<result property="ynum" column="YNUM"/>
+		<result property="ydelyn" column="YDELYN"/>
+	</resultMap>
+	
+	<insert id="youtubeInsert" parameterType="com.fithe.youtube.vo.YoutubeVO">
+		INSERT INTO FIT_YOUTUBE
+		(	
+			YLINK,
+			YID,
+			YNUM,
+			YDELYN
+		)
+		VALUES(
+			#{ylink, jdbcType=VARCHAR},
+			#{yid, jdbcType=VARCHAR},
+			#{ynum, jdbcType=VARCHAR},
+			'Y'
+		)
+		
+	</insert>
+	
+	<select id="youtubeSelect" parameterType="com.fithe.youtube.vo.YoutubeVO" resultMap="YoutubeVO">
+		SELECT 	YNUM, YLINK
+		FROM 	FIT_YOUTUBE
+		WHERE 	YID 	= #{yid, jdbcType=VARCHAR}	
+		AND	  	YDELYN 	= 'Y'
+	</select>
+	
+	<update id="youtubeUpdate" parameterType="com.fithe.youtube.vo.YoutubeVO">
+		UPDATE 	FIT_YOUTUBE
+		SET 	YLINK = #{ylink, jdbcType=VARCHAR}
+		WHERE 	YID	  = #{yid, jdbcType=VARCHAR}
+		AND		YNUM  = #{ynum, jdbcType=VARHCAR}
+		AND		YDELYN = 'Y'
+	</update>
+	
 
 </mapper>

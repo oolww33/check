@@ -7,7 +7,7 @@
 		<title>main</title>
 	</head>
 	<body>
-		<a href="loginform.fit">로그인</a>
-		<a href="mail.fit">메일보내기</a>
+		<a href="loginform.do">로그인</a>
+		<a href="mail.do">메일보내기</a>
 	</body>
 </html>
