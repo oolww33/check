@@ -11,7 +11,6 @@ import com.fithe.member.vo.MemberVO;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
-	private Logger logger = Logger.getLogger(MemberDAOImpl.class);
 	
 	//Autowired어노테이션으로 의존성 주입
 	@Autowired(required=false)

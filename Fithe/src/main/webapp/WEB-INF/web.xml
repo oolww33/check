@@ -7,6 +7,7 @@
   <display-name>Fithe</display-name>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
+    <welcome-file>str.jsp</welcome-file>
   </welcome-file-list>
   
   <servlet>
@@ -14,16 +15,15 @@
   	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
   	<init-param>
   		<param-name>contextConfigLocation</param-name>
-  		<param-value>/WEB-INF/spring/spring-servlet.xml</param-value>
+  		<param-value>/WEB-INF/spring/applicationContext.xml</param-value>
   	</init-param> 	
   	<load-on-startup>1</load-on-startup>
   </servlet>
   
+  <!-- needed for ContextLoaderListener -->
   <context-param>
   	<param-name>contextConfigLocation</param-name>
-  	<param-value>
-  		/WEB-INF/spring/*servlet.xml
-  	</param-value>
+  	<param-value>/WEB-INF/spring/*Context.xml</param-value>
   </context-param>
   
   <listener>

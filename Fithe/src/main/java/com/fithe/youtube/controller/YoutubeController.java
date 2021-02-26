@@ -72,8 +72,13 @@ public class YoutubeController {
 	@RequestMapping(value="youtubeupdate", method=RequestMethod.POST)
 	public String youtubeUpdate(HttpServletRequest request, YoutubeVO yvo) {
 		logger.info("YoutubeController youtubeUpdate함수");
-		int nCnt = 0;
-		return "";
+		int nCnt = youtubeService.youtubeUpdate(yvo);
+		logger.info("nCnt : " + nCnt);
+		if(nCnt == 1) {
+			return "GOOD";
+		}else {
+			return "BAD";
+		}
 	}
 	
 	@ResponseBody

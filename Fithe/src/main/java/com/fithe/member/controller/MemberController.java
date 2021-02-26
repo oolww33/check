@@ -32,7 +32,6 @@ public class MemberController {
 
 	private Logger logger = Logger.getLogger(MemberController.class);
 	
-	private JavaMailSenderImpl mailSender;
 	private PasswordEncoder passwordEncoder;
 	private MemberService memberService;
 	private ChabunService chabunService;
@@ -41,11 +40,10 @@ public class MemberController {
 	//Autowired 어노테이션으로 의존성 주입
 	@Autowired(required=false)
 	public MemberController ( MemberService memberService, ChabunService chabunService
-			, PasswordEncoder passwordEncoder, JavaMailSenderImpl mailSender,ScheduleService scheduleService) {
+			, PasswordEncoder passwordEncoder,ScheduleService scheduleService) {
 		this.memberService = memberService;
 		this.chabunService = chabunService;
 		this.passwordEncoder = passwordEncoder;
-		this.mailSender = mailSender;
 		this.scheduleService = scheduleService;
 	}
 	
@@ -285,29 +283,29 @@ public class MemberController {
 	
 
 	// 이메일보내기
-	@RequestMapping(value="/mail")
-	public String mailSending(HttpServletRequest request) {
-		String setform = "oolww11@gmail.com";
-		String tomail = "oolww33@naver.com";
-		String title = "test";
-		String content = "test";
-		final MimeMessagePreparator preparator = new MimeMessagePreparator() { 		
-			@Override 
-			public void prepare(MimeMessage mimeMessage) throws Exception { 
-				
-				final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-					helper.setFrom(mailSender.getUsername()); 
-					helper.setTo(tomail); 
-					helper.setSubject(title); 
-					helper.setText(content); 
-				} 
-			}; 
-			
-			mailSender.send(preparator); 
-			
-			return "/login/loginform";
-	}
-	
+//	@RequestMapping(value="/mail")
+//	public String mailSending(HttpServletRequest request) {
+//		String setform = "oolww11@gmail.com";
+//		String tomail = "oolww33@naver.com";
+//		String title = "test";
+//		String content = "test";
+//		final MimeMessagePreparator preparator = new MimeMessagePreparator() { 		
+//			@Override 
+//			public void prepare(MimeMessage mimeMessage) throws Exception { 
+//				
+//				final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+//					helper.setFrom(mailSender.getUsername()); 
+//					helper.setTo(tomail); 
+//					helper.setSubject(title); 
+//					helper.setText(content); 
+//				} 
+//			}; 
+//			
+//			mailSender.send(preparator); 
+//			
+//			return "/login/loginform";
+//	}
+//	
 	//아이디찾기 창으로이동
 	@RequestMapping(value="idfind", method=RequestMethod.GET)
 	public String idFind() {

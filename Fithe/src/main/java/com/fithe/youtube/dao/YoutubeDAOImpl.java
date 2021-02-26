@@ -10,6 +10,7 @@ import com.fithe.youtube.vo.YoutubeVO;
 
 @Repository
 public class YoutubeDAOImpl implements YoutubeDAO {
+	
 	@Autowired(required=false)
 	private SqlSession sqlSession; 
 	
@@ -28,6 +29,6 @@ public class YoutubeDAOImpl implements YoutubeDAO {
 	@Override
 	public int youtubeUpdate(YoutubeVO yvo) {
 		// TODO Auto-generated method stub
-		return sqlSession.update("youtubeUpdate", yvo);
+		return (Integer)sqlSession.update("youtubeUpdate", yvo);
 	}
 }
